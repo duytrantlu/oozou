@@ -1,0 +1,19 @@
+{
+  "type": "postgres",
+  "host": "127.0.0.1",
+  "port": 5432,
+  "username": "postgres",
+  "password": "12345",
+  "database": "oozou",
+  "entities": [
+    "dist/**/*.entity{.ts,.js}"
+  ],
+  "synchronize": true,
+  "migrations": [
+    "src/migration/*.ts"
+  ],
+  "migrationsTableName": "migrations",
+  "cli": {
+    "migrationsDir": "src/migrations"
+  }
+}

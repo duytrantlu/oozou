@@ -56,14 +56,28 @@ export abstract class CreateSubtaskCreatedJsonApiResponse extends JsonApiRespons
 
 }
 
-@ApiExtraModels(SubtaskAttributesObject)
+
+abstract class CreateSubtaskAttributesObject {
+
+  @ApiProperty()
+  title: string;
+
+  @ApiProperty({
+    required: true
+  })
+  @IsString()
+  @IsDefined()
+  @IsNotEmpty()
+  todoId!: string;
+}
+@ApiExtraModels(CreateSubtaskAttributesObject)
 export abstract class CreateSubtaskRequestData extends JsonApiRequestData {
 
   @ApiProperty({enum: ['subtasks']})
   type!: string
 
-  @ApiProperty({type: SubtaskAttributesObject})
-  attributes!: SubtaskAttributesObject
+  @ApiProperty({type: CreateSubtaskAttributesObject})
+  attributes!: CreateSubtaskAttributesObject
 
 }
 

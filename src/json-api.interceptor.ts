@@ -10,7 +10,7 @@ export interface RequestWithJsonApiDeserializedBody extends Request {
 }
 
 @Injectable()
-export default class UsersJsonApiAllInOneInterceptor implements NestInterceptor {
+export default class JsonApiAllInOneInterceptor implements NestInterceptor {
 
   private name!: string
   private options!: RegisterOptions
@@ -32,6 +32,7 @@ export default class UsersJsonApiAllInOneInterceptor implements NestInterceptor 
       const deserializedBody = await this.serializer.deserializeAsync(this.name, body);
       request.deserializedBody = deserializedBody; // This 'feels' like middleware
     }
+    
     return next.handle().pipe(
       map(async data => await this.serializer.serializeAsync(this.name, data, this.extraData(data, request)))
     );

@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import TodosModule from 'src/todos/todos.module';
 import { SubtasksController } from './subtasks.controller';
@@ -10,9 +10,10 @@ import SubtasksService from './subtasks.service';
 @Module({
   imports: [
     TypeOrmModule.forFeature([Subtask]),
-    TodosModule
+    forwardRef(() => TodosModule)
   ],
   controllers: [SubtasksController],
-  providers: [SubtasksService]
+  providers: [SubtasksService],
+  exports: [SubtasksService]
 })
 export default class SubtaskModule {}

@@ -15,7 +15,6 @@ export default class Subtask extends BaseEntity{
   })
   status: STATUS;
 
-  @ManyToOne(() => Todo, (todo) => todo.id)
-  @JoinColumn()
-  todoId: string;
+  @ManyToOne(() => Todo, (todo) => todo.subtasks)
+  todo: Todo;
 }

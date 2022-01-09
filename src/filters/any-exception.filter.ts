@@ -1,12 +1,12 @@
-import {ArgumentsHost, Catch, ExceptionFilter, HttpException, HttpStatus} from '@nestjs/common';
-import {InjectPinoLogger, PinoLogger} from 'nestjs-pino';
+import { ArgumentsHost, Catch, ExceptionFilter, HttpException, HttpStatus } from '@nestjs/common';
+import { InjectPinoLogger, PinoLogger } from 'nestjs-pino';
 import JSONAPISerializer from 'json-api-serializer';
 
 @Catch()
 export class AnyExceptionFilter<T> implements ExceptionFilter {
   constructor(@InjectPinoLogger(AnyExceptionFilter.name) private readonly logger: PinoLogger) {}
 
-  catch(exception: T, host: ArgumentsHost) {
+  catch(exception: any, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse();
     const request = ctx.getRequest();
@@ -16,7 +16,7 @@ export class AnyExceptionFilter<T> implements ExceptionFilter {
 
     const message =
       exception instanceof HttpException ? exception.message : 'Internal Server Error';
-
+    const detail = exception?.response?.message || 'Exception Error';
     if (status === HttpStatus.INTERNAL_SERVER_ERROR) {
       this.logger.error({err: exception}, 'Caught exception');
     }
@@ -25,9 +25,8 @@ export class AnyExceptionFilter<T> implements ExceptionFilter {
     response.status(status).json(
       Serializer.serializeError({
         status,
-        // code: status,
-        detail: message,
-        // path: request.url,
+        title: message,
+        detail,
         links: {
           about: request.url
         },

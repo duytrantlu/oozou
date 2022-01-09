@@ -2,7 +2,7 @@ import { STATUS } from "../enums/subtasks.enum";
 
 export interface ICreateSubtask {
   title: string;
-  status: STATUS;
+  status?: STATUS;
   id?: string;
   todoId: string;
   createdAt?: Date;

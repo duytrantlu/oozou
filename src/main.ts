@@ -4,12 +4,12 @@ import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-// import { Logger } from '@nestjs/common';
 import { Logger } from 'nestjs-pino';
 import { ConfigService } from '@nestjs/config';
 
 const validationPipeOptions = {
   transform: true,
+  validateCustomDecorators: true,
   validationError: {
     target: false,
     value: false,
